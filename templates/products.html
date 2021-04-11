@@ -1,0 +1,54 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% block title%}
+Products
+{% endblock title %}
+
+{% block content %}
+    <h1>Все товары</h1>
+    <h3>{{ time_now|date:'M d Y' }}</h3>
+     <h3> {{ value1|default_if_none:"ничего" }} </h3>
+    <hr>
+    {% if products %} <!-- Если есть товары, то выводим таблицу с ними -->
+        <table>
+            <tr>
+                <td>
+                    Название
+                </td>
+                <td>
+                    Описание
+                </td>
+                <td>
+                    Категория
+                </td>
+                <td>
+                    Цена
+                </td>
+                <td>
+                    Количество
+                </td>
+            </tr>
+            {% for product in products %}
+            <tr>
+                <td>
+                    {{ product.name|multiply:4 }} <!-- не забываем что переменные в шаблоне ничем не отличаются от переменных в python. Здесь также можно получать доступ к полям класса. Например здесь мы выводим имя, в следующем столбце описание, и т.д.  -->
+                </td>
+                <td>
+                    {{ product.description|truncatewords:4 }}
+                </td>
+                <td>
+                    {{ product.category.name }}
+                </td>
+                <td>
+                    {{ product.price }}
+                </td>
+                <td>
+                    {{ product.quantity }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+      <h2>Товаров нет!</h2>
+    {% endif %}
+{% endblock content %}
